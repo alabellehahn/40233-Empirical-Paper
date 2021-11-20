@@ -11,4 +11,4 @@ This repository contains the data from [Mintel](https://reports-mintel-com.proxy
 
 ## Resources Used 
 
-[Lengthy video describing how ot clean excel data](https://www.youtube.com/watch?v=xhMNW3Y6C2Q)
+[Lengthy video describing how to clean excel data](https://www.youtube.com/watch?v=xhMNW3Y6C2Q)
