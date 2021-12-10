@@ -39,14 +39,18 @@ tidier <- all_cells %>%
 
 tidied_data <- tidier[-c(1:2), ]
 
-
-  
-
 ```
 
 ```{r}
 
 #Testing analytical capabilities of newly formatted data
+
+tidied_data %>%
+  group_by(type) %>%
+  filter(question == "Race (4 race groups):") %>%
+  filter(!consumption == "Total") %>%
+  ggplot(aes(x = demographic, y = percentage, fill = type)) + 
+  geom_col(color = "black")  
 
 
 ```
