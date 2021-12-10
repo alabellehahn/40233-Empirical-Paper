@@ -17,5 +17,5 @@ This repository contains the data from [Mintel](https://reports-mintel-com.proxy
 
 ## Resources Used 
 
-[Lengthy video describing how to clean excel data](https://www.youtube.com/watch?v=xhMNW3Y6C2Q)
-[For splitting a data frame into multiple](https://statisticsglobe.com/split-data-frame-in-r)
+- [Lengthy video describing how to clean excel data](https://www.youtube.com/watch?v=xhMNW3Y6C2Q)
+- [For splitting a data frame into multiple](https://statisticsglobe.com/split-data-frame-in-r)
