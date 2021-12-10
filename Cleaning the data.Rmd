@@ -1,9 +1,27 @@
 ---
 title: "Tidying Consumer Data"
-author: "Alana"
+author: "Alana LaBelle-Hahn"
 date: "12/9/2021"
 output: github_document
 ---
+
+# Initial Comments
+
+I tried to write a 'for' loop to do this, but it kept throwing me errors,
+so I unfortunately have to do it the old fashioned way:
+
+1) Uncropping the summary tables and isolating only the bulk data
+
+2) Fixing up the original excel sheets by renesting the subheaders for the demographic
+questions, and removing blank columns and rows. 
+
+then, 
+
+3)Reading in each individual sheet and performing the cleaning and tidying functions
+manually...
+
+What a time. 
+
 
 ```{r setup, include=FALSE}
 library(tidyverse)
@@ -22,15 +40,17 @@ library(knitr)
 #Testing out the more technical solution!
 
 # Each cell in the excel file becomes an entire row in R
-all_cells <- tidyxl::xlsx_cells("May 2019_edited.xlsx")
+
+raw_May2019 <- tidyxl::xlsx_cells(path = "Cuisine Tracker Data_Edited.xlsx", sheet = "May 2019")
 
 
 #Filter non-blank rows, select variables
-all_cells <- all_cells %>%
+raw_May2019 <- raw_May2019 %>%
   dplyr::filter(!is_blank) %>%
   select(row, col, data_type, character, numeric)
 
-tidier <- all_cells %>%
+# Sorting the data into clear categories
+clean_May2019 <- all_cells %>%
   behead("up-left", consumption) %>%
   behead("up", type) %>%
   behead("left-up", question)%>%
@@ -39,26 +59,11 @@ tidier <- all_cells %>%
   select(-data_type, -row, -col, -character)
 
 #Removing survey totals from dataframe and creating percentage column
-tidied_data <- tidier[-c(1:2), ] %>%
-  mutate(percentage = mean(n, na.rm= TRUE))
+#tidied_data <- tidier[-c(1:2), ] %>%
+  #mutate(percentage = mean(n, na.rm= TRUE))
   
 
 ```
-
-#Applying base method to relevant sheets 
-
-I tried to write a 'for' loop to do this, but it kept throwing me errors,
-so I unfortunately have to do it the old fashioned way:
-
-1)Fixing up the original excel sheets by renesting the subheaders for the demographic
-questions, and removing blank columns and rows. 
-
-then, 
-
-2)Reading in each individual sheet and performing the cleaning and tidying functions
-manually for each one...
-
-What a time. 
 
 
 ``` {r, Reading in Aug 2019}
@@ -82,73 +87,143 @@ clean_August2019 <- raw_August2019 %>%
 ```
 
 
+``` {r, Reading in Nov 2019}
+
+
+raw_November2019 <- tidyxl::xlsx_cells(path = "Cuisine Tracker Data_Edited.xlsx", sheet = "November 2019")
+
+raw_November2019<- raw_November2019 %>%
+  dplyr::filter(!is_blank) %>%
+  select(row, col, data_type, character, numeric)
+
+clean_November2019 <- raw_November2019 %>%
+  behead("up-left", consumption) %>%
+  behead("up", type) %>%
+  behead("left-up", question)%>%
+  behead("left", demographic) %>%
+  rename(n= numeric) %>%
+  select(-data_type, -row, -col, -character)
+
+```
+
+```{r,  Reading in Feb 2020}
+
+
+raw_February2020 <- tidyxl::xlsx_cells(path = "Cuisine Tracker Data_Edited.xlsx", sheet = "February 2020")
+
+raw_February2020 <- raw_February2020 %>%
+  dplyr::filter(!is_blank) %>%
+  select(row, col, data_type, character, numeric)
+
+clean_February2020 <- raw_February2020 %>%
+  behead("up-left", consumption) %>%
+  behead("up", type) %>%
+  behead("left-up", question)%>%
+  behead("left", demographic) %>%
+  rename(n= numeric) %>%
+  select(-data_type, -row, -col, -character)
+
+
+```
+
+``` {r, Reading in May 2020}
+
+raw_May2020 <- tidyxl::xlsx_cells(path = "Cuisine Tracker Data_Edited.xlsx", sheet = "May 2020")
+
+raw_May2020 <- raw_May2020 %>%
+  dplyr::filter(!is_blank) %>%
+  select(row, col, data_type, character, numeric)
+
+clean_May2020 <- raw_May2020 %>%
+  behead("up-left", consumption) %>%
+  behead("up", type) %>%
+  behead("left-up", question)%>%
+  behead("left", demographic) %>%
+  rename(n= numeric) %>%
+  select(-data_type, -row, -col, -character)
+
+```
+
+
+``` {r, Reading in August 2020}
+
+raw_August2020 <- tidyxl::xlsx_cells(path = "Cuisine Tracker Data_Edited.xlsx", sheet = "August 2020")
+
+raw_August2020 <- raw_August2020 %>%
+  dplyr::filter(!is_blank) %>%
+  select(row, col, data_type, character, numeric)
+
+clean_August2020 <- raw_August2020 %>%
+  behead("up-left", consumption) %>%
+  behead("up", type) %>%
+  behead("left-up", question)%>%
+  behead("left", demographic) %>%
+  rename(n= numeric) %>%
+  select(-data_type, -row, -col, -character)
+
+```
+
+``` {r, Reading in November 2020}
+
+raw_November2020 <- tidyxl::xlsx_cells(path = "Cuisine Tracker Data_Edited.xlsx", sheet = "November 2020")
+
+raw_November2020 <- raw_November2020 %>%
+  dplyr::filter(!is_blank) %>%
+  select(row, col, data_type, character, numeric)
+
+clean_November2020 <- raw_November2020 %>%
+  behead("up-left", consumption) %>%
+  behead("up", type) %>%
+  behead("left-up", question)%>%
+  behead("left", demographic) %>%
+  rename(n= numeric) %>%
+  select(-data_type, -row, -col, -character)
+
+```
+
+
+
+``` {r, Reading in February 2021}
+
+raw_February2021 <- tidyxl::xlsx_cells(path = "Cuisine Tracker Data_Edited.xlsx", sheet = "February 2021")
+
+raw_February2021 <- raw_February2021 %>%
+  dplyr::filter(!is_blank) %>%
+  select(row, col, data_type, character, numeric)
+
+clean_February2021<- raw_February2021 %>%
+  behead("up-left", consumption) %>%
+  behead("up", type) %>%
+  behead("left-up", question)%>%
+  behead("left", demographic) %>%
+  rename(n= numeric) %>%
+  select(-data_type, -row, -col, -character)
+
+```
+
+
+``` {r, Reading in May 2021}
+
+raw_May2021 <- tidyxl::xlsx_cells(path = "Cuisine Tracker Data_Edited.xlsx", sheet = "May 2021")
+
+raw_May2021 <- raw_May2021 %>%
+  dplyr::filter(!is_blank) %>%
+  select(row, col, data_type, character, numeric)
+
+clean_May2021<- raw_May2021 %>%
+  behead("up-left", consumption) %>%
+  behead("up", type) %>%
+  behead("left-up", question)%>%
+  behead("left", demographic) %>%
+  rename(n= numeric) %>%
+  select(-data_type, -row, -col, -character)
+
+```
+
+# Attempting to combine them all
+
 ```{r}
 
-#Testing analytic capabilities of newly formatted data
 
-tidied_data %>%
-  group_by(type) %>%
-  mutate(percentage = mean(n, na.rm= TRUE)) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  ggplot(aes(x = demographic, y = percentage, fill = type)) + 
-  geom_col(color = "black") + 
-  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  theme_linedraw()+
-  labs(title = "Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "May 2019 Survey", 
-       x = "Race",
-       y = "Percent %",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-#Visualizing any consumption across racial groups
-tidied_data %>%
-  group_by(type) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  filter(consumption == "Any consumption (net)") %>%
-  ggplot(aes(x = demographic, y = n, fill = type)) + 
-  geom_col(color = "black") + 
-  theme_linedraw()+
-  labs(title = "Any Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "May 2019 Survey", 
-       x = "Race",
-       y = "Count (out of 2000 respondents)",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-# Visualizing at take-out consumption
-tidied_data %>%
-  group_by(type) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
-  ggplot(aes(x = demographic, y = n, fill = type)) + 
-  geom_col(color = "black") + 
-  theme_linedraw()+
-  labs(title = "Any Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "May 2019 Survey", 
-       x = "Race",
-       y = "Count (out of 2000 respondents)",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-
-# Visualizing at take-out consumption
-tidied_data %>%
-  group_by(type) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  filter(consumption == "At home") %>%
-  ggplot(aes(x = demographic, y = n, fill = type)) + 
-  geom_col(color = "black") + 
-  theme_linedraw()+
-  labs(title = "Any Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "May 2019 Survey", 
-       x = "Race",
-       y = "Count (out of 2000 respondents)",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
 
 ```
