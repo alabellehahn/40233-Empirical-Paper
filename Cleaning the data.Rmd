@@ -16,24 +16,6 @@ library(unpivotr)
 library(knitr)
 ```
 
-``` {r}
-
-# Testing out the first tidied sheet
-may_2019 <- read_excel("May 2019.xlsx")
-
-#Defining our headings
-
-category_headings <- 
-  
-  # Splitting that sheet into multiple dataframes so that they can later be merged
-  any_consumption <- may_2019[ ,c(1:14)]
-
-away_from_home <- may_2019[, c(1:2, 15:26)]
-
-at_home <- may_2019[, c(1:2, 27:38)]
-```
-
-
 
 ```{r }
 #Testing out the more technical solution!
@@ -47,12 +29,24 @@ all_cells <- all_cells %>%
   dplyr::filter(!is_blank) %>%
   select(row, col, data_type, character, numeric)
 
-test<- all_cells %>%
+tidier <- all_cells %>%
   behead("up-left", consumption) %>%
   behead("up", type) %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(percentage = numeric) %>%
   select(-data_type, -row, -col, -character)
+
+tidied_data <- tidier[-c(1:2), ]
+
+
+  
+
+```
+
+```{r}
+
+#Testing analytical capabilities of newly formatted data
+
 
 ```
