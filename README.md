@@ -16,10 +16,10 @@ This repository contains the data from [Mintel](https://reports-mintel-com.proxy
 4) Removed bold formatting of titles
 5) Manually nested demographic question answers to differentiate them from the headers
 6) Removed blank rows
-7) Reformatted the data into a tidy tibble 
+7) Reformatted the data into a tidy tibble in R
 
 
 ## Resources Used 
 
-- [Lengthy video describing how to clean excel data](https://www.youtube.com/watch?v=xhMNW3Y6C2Q)
-- [For splitting a data frame into multiple](https://statisticsglobe.com/split-data-frame-in-r)
+- [A lifesaving video about how to rework weirdly formatted excel data](https://www.youtube.com/watch?v=ShWxAqnY2YE)
+

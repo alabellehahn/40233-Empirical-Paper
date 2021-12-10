@@ -1,8 +1,8 @@
 ---
-title: "Untitled"
+title: "Tidying Consumer Data"
 author: "Alana"
 date: "12/9/2021"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -43,7 +43,6 @@ all_cells <- tidyxl::xlsx_cells("May 2019_edited.xlsx")
 
 
 #Filter non-blank rows, select variables
-
 all_cells <- all_cells %>%
   dplyr::filter(!is_blank) %>%
   select(row, col, data_type, character, numeric)
@@ -55,4 +54,5 @@ test<- all_cells %>%
   behead("left", demographic) %>%
   rename(percentage = numeric) %>%
   select(-data_type, -row, -col, -character)
+
 ```
