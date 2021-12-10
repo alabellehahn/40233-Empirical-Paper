@@ -32,6 +32,7 @@ library(tidyxl)
 library(data.table)
 library(unpivotr)
 library(knitr)
+library(zoo)
 ```
 
 # Testing the method for reading in the data and cleaning
@@ -56,7 +57,12 @@ clean_May2019 <- all_cells %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
+  select(-data_type, -row, -col, -character) %>%
+  mutate(month = as.numeric("5")) %>%
+  mutate(year = as.numeric("2019")) 
+
+# Revising the month and year category into a parsable date
+clean_May2019$date <- as.yearmon(paste(clean_May2019$year, clean_May2019$month), "%Y %m") 
 
 #Removing survey totals from dataframe and creating percentage column
 #tidied_data <- tidier[-c(1:2), ] %>%
@@ -82,8 +88,12 @@ clean_August2019 <- raw_August2019 %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
+  select(-data_type, -row, -col, -character)  %>%
+  mutate(month = as.numeric("8")) %>%
+  mutate(year = as.numeric("2019")) 
 
+# Revising the month and year category into a parsable date
+clean_August2019$date <- as.yearmon(paste(clean_August2019$year, clean_August2019$month), "%Y %m") 
 ```
 
 
@@ -102,7 +112,12 @@ clean_November2019 <- raw_November2019 %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
+  select(-data_type, -row, -col, -character) %>%
+  mutate(month = as.numeric("11")) %>%
+  mutate(year = as.numeric("2019")) 
+
+# Revising the month and year category into a parsable date
+clean_November2019$date <- as.yearmon(paste(clean_November2019$year, clean_November2019$month), "%Y %m") 
 
 ```
 
@@ -121,8 +136,12 @@ clean_February2020 <- raw_February2020 %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
+  select(-data_type, -row, -col, -character)%>%
+  mutate(month = as.numeric("2")) %>%
+  mutate(year = as.numeric("2020")) 
 
+# Revising the month and year category into a parsable date
+clean_February2020$date <- as.yearmon(paste(clean_February2020$year, clean_February2020$month), "%Y %m") 
 
 ```
 
@@ -140,7 +159,13 @@ clean_May2020 <- raw_May2020 %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
+  select(-data_type, -row, -col, -character) %>%
+  mutate(month = as.numeric("5")) %>%
+  mutate(year = as.numeric("2020")) 
+
+# Revising the month and year category into a parsable date
+
+clean_May2020$date <- as.yearmon(paste(clean_May2020$year, clean_May2020$month), "%Y %m") 
 
 ```
 
@@ -159,8 +184,13 @@ clean_August2020 <- raw_August2020 %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
+  select(-data_type, -row, -col, -character) %>%
+  mutate(month = as.numeric("8")) %>%
+  mutate(year = as.numeric("2020")) 
 
+# Revising the month and year category into a parsable date
+
+clean_August2020 $date <- as.yearmon(paste(clean_August2020$year, clean_August2020$month), "%Y %m") 
 ```
 
 ``` {r, Reading in November 2020}
@@ -177,7 +207,14 @@ clean_November2020 <- raw_November2020 %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
+  select(-data_type, -row, -col, -character) %>%
+  mutate(month = as.numeric("11")) %>%
+  mutate(year = as.numeric("2021")) 
+
+# Revising the month and year category into a parsable date
+
+clean_November2020$date <- as.yearmon(paste(clean_November2020$year, clean_November2020$month), "%Y %m") 
+
 
 ```
 
@@ -197,7 +234,13 @@ clean_February2021<- raw_February2021 %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
+  select(-data_type, -row, -col, -character) %>%
+  mutate(month = as.numeric("2")) %>%
+  mutate(year = as.numeric("2021")) 
+
+# Revising the month and year category into a parsable date
+
+clean_February2021$date <- as.yearmon(paste(clean_February2021$year, clean_February2021$month), "%Y %m") 
 
 ```
 
@@ -216,7 +259,14 @@ clean_May2021<- raw_May2021 %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
   rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
+  select(-data_type, -row, -col, -character) %>%
+  mutate(month = as.numeric("5")) %>%
+  mutate(year = as.numeric("2021")) 
+
+# Revising the month and year category into a parsable date
+
+clean_May2021$date <- as.yearmon(paste(clean_May2021$year, clean_May2021$month), "%Y %m")
+
 
 ```
 
@@ -225,5 +275,13 @@ clean_May2021<- raw_May2021 %>%
 ```{r}
 
 
-
+combined_months <- rbind(clean_May2019, clean_August2019, clean_November2019, clean_February2020, clean_May2020, clean_August2020, clean_November2020, clean_February2021, clean_May2021)
 ```
+
+
+
+
+
+
+
+

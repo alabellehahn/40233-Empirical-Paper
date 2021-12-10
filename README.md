@@ -22,4 +22,6 @@ This repository contains the data from [Mintel](https://reports-mintel-com.proxy
 ## Resources Used 
 
 - [A lifesaving video about how to rework weirdly formatted excel data](https://www.youtube.com/watch?v=ShWxAqnY2YE)
+- [For merging dataframes in R](https://r-lang.com/how-to-combine-two-data-frames-in-r/)
+- [More helpful tools for binding dataframes](https://r-lang.com/rbind-in-r/)
 
