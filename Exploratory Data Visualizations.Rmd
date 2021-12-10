@@ -19,19 +19,32 @@ library(knitr)
 
 ```
 
+```{r, reading in data}
 
+consumer_data <- read_csv("combined_months.csv")
+
+```
+
+```{r}
+
+# I want to create cuisine groups in order to visualize the difference between ethnic food categories
+<- consumer_data %>%
+  filter(type = )
+
+```
 
 ```{r, echo = FALSE}
 #Testing analytic capabilities of newly formatted data
 
-tidied_data %>%
+consumer_data %>%
   group_by(type) %>%
-  mutate(percentage = mean(n, na.rm= TRUE)) %>%
+  group_by(date) %>%
   filter(question == "Race (4 race groups):") %>%
   filter(!consumption == "Total") %>%
-  ggplot(aes(x = demographic, y = percentage, fill = type)) + 
+  filter(date == "May 2019") %>%
+  ggplot(aes(x = demographic, y = n, fill = type)) + 
   geom_col(color = "black") + 
-  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   theme_linedraw()+
   labs(title = "Ethnic Food Consumption Across Racial Categories", 
        subtitle = "May 2019 Survey", 

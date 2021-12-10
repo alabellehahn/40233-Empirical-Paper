@@ -7,12 +7,12 @@ output: github_document
 
 # Initial Comments
 
-I tried to write a 'for' loop to do this, but it kept throwing me errors,
-so I unfortunately have to do it the old fashioned way:
+I tried to write a couple 'for' loop to do some of this stuff, but it kept throwing me errors,
+so I unfortunately had to do it the old fashioned way:
 
 1) Uncropping the summary tables and isolating only the bulk data
 
-2) Fixing up the original excel sheets by renesting the subheaders for the demographic
+2) Fixing up the original excel sheets, renesting the subheaders for the demographic
 questions, and removing blank columns and rows. 
 
 then, 
@@ -27,12 +27,11 @@ What a time.
 library(tidyverse)
 library(dplyr)
 library(readxl)
-library(lubridate) #Don't think I'll be needing lubridate but leaving it in for now
 library(tidyxl)
 library(data.table)
 library(unpivotr)
 library(knitr)
-library(zoo)
+library(zoo) # Helped with converting numeric dates to parsable dates in R
 ```
 
 # Testing the method for reading in the data and cleaning
@@ -62,12 +61,9 @@ clean_May2019 <- all_cells %>%
   mutate(year = as.numeric("2019")) 
 
 # Revising the month and year category into a parsable date
-clean_May2019$date <- as.yearmon(paste(clean_May2019$year, clean_May2019$month), "%Y %m") 
+clean_May2019$date <- as.yearmon(paste(clean_May2019$year, 
+                                       clean_May2019$month), "%Y %m") 
 
-#Removing survey totals from dataframe and creating percentage column
-#tidied_data <- tidier[-c(1:2), ] %>%
-  #mutate(percentage = mean(n, na.rm= TRUE))
-  
 
 ```
 
@@ -93,7 +89,8 @@ clean_August2019 <- raw_August2019 %>%
   mutate(year = as.numeric("2019")) 
 
 # Revising the month and year category into a parsable date
-clean_August2019$date <- as.yearmon(paste(clean_August2019$year, clean_August2019$month), "%Y %m") 
+clean_August2019$date <- as.yearmon(paste(clean_August2019$year, 
+                                          clean_August2019$month), "%Y %m") 
 ```
 
 
@@ -117,7 +114,8 @@ clean_November2019 <- raw_November2019 %>%
   mutate(year = as.numeric("2019")) 
 
 # Revising the month and year category into a parsable date
-clean_November2019$date <- as.yearmon(paste(clean_November2019$year, clean_November2019$month), "%Y %m") 
+clean_November2019$date <- as.yearmon(paste(clean_November2019$year, 
+                                            clean_November2019$month), "%Y %m") 
 
 ```
 
@@ -141,7 +139,8 @@ clean_February2020 <- raw_February2020 %>%
   mutate(year = as.numeric("2020")) 
 
 # Revising the month and year category into a parsable date
-clean_February2020$date <- as.yearmon(paste(clean_February2020$year, clean_February2020$month), "%Y %m") 
+clean_February2020$date <- as.yearmon(paste(clean_February2020$year, 
+                                            clean_February2020$month), "%Y %m") 
 
 ```
 
@@ -165,7 +164,8 @@ clean_May2020 <- raw_May2020 %>%
 
 # Revising the month and year category into a parsable date
 
-clean_May2020$date <- as.yearmon(paste(clean_May2020$year, clean_May2020$month), "%Y %m") 
+clean_May2020$date <- as.yearmon(paste(clean_May2020$year, 
+                                       clean_May2020$month), "%Y %m") 
 
 ```
 
@@ -190,7 +190,8 @@ clean_August2020 <- raw_August2020 %>%
 
 # Revising the month and year category into a parsable date
 
-clean_August2020 $date <- as.yearmon(paste(clean_August2020$year, clean_August2020$month), "%Y %m") 
+clean_August2020 $date <- as.yearmon(paste(clean_August2020$year, 
+                                           clean_August2020$month), "%Y %m") 
 ```
 
 ``` {r, Reading in November 2020}
@@ -213,7 +214,8 @@ clean_November2020 <- raw_November2020 %>%
 
 # Revising the month and year category into a parsable date
 
-clean_November2020$date <- as.yearmon(paste(clean_November2020$year, clean_November2020$month), "%Y %m") 
+clean_November2020$date <- as.yearmon(paste(clean_November2020$year, 
+                                            clean_November2020$month), "%Y %m") 
 
 
 ```
@@ -240,7 +242,8 @@ clean_February2021<- raw_February2021 %>%
 
 # Revising the month and year category into a parsable date
 
-clean_February2021$date <- as.yearmon(paste(clean_February2021$year, clean_February2021$month), "%Y %m") 
+clean_February2021$date <- as.yearmon(paste(clean_February2021$year, 
+                                            clean_February2021$month), "%Y %m") 
 
 ```
 
@@ -265,7 +268,8 @@ clean_May2021<- raw_May2021 %>%
 
 # Revising the month and year category into a parsable date
 
-clean_May2021$date <- as.yearmon(paste(clean_May2021$year, clean_May2021$month), "%Y %m")
+clean_May2021$date <- as.yearmon(paste(clean_May2021$year, 
+                                       clean_May2021$month), "%Y %m")
 
 
 ```
@@ -274,14 +278,17 @@ clean_May2021$date <- as.yearmon(paste(clean_May2021$year, clean_May2021$month),
 
 ```{r}
 
+# This should be the final dataset from which graphs can be made!
+combined_months <- rbind(clean_May2019, 
+                         clean_August2019, 
+                         clean_November2019, 
+                         clean_February2020, 
+                         clean_May2020, clean_August2020, 
+                         clean_November2020, 
+                         clean_February2021, 
+                         clean_May2021)
 
-combined_months <- rbind(clean_May2019, clean_August2019, clean_November2019, clean_February2020, clean_May2020, clean_August2020, clean_November2020, clean_February2021, clean_May2021)
+
+#Need to store it as a csv file in my repository so that it is accessible
+write_csv(combined_months, path = "combined_months.csv")
 ```
-
-
-
-
-
-
-
-
