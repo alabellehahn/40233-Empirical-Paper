@@ -16,6 +16,7 @@ library(unpivotr)
 library(knitr)
 ```
 
+# Testing the method for reading in the data and cleaning
 
 ```{r }
 #Testing out the more technical solution!
@@ -44,12 +45,43 @@ tidied_data <- tidier[-c(1:2), ] %>%
 
 ```
 
+#Applying base method to relevant sheets 
+
+I tried to write a 'for' loop to do this, but it kept throwing me errors,
+so I unfortunately have to do it the old fashioned way: by reading in each individual
+sheet and performing the cleaning and tidying functions manually for each one...
+
+
+``` {r, Reading in other sheets}
+
+raw <- tidyxl::xlsx_cells(path = "International Cuisine Tracker - US - May 2021 - Databook(AutoRecovered).xlsx", sheet = c("May 2019":"May 2021"))
+
+
+raw_August2019 <- tidyxl::xlsx_cells(path = "International Cuisine Tracker - US - May 2021 - Databook(AutoRecovered).xlsx", sheet = "August 2019")
+
+raw_August2019 <- raw_August2019 %>%
+  dplyr::filter(!is_blank) %>%
+  select(row, col, data_type, character, numeric)
+
+clean_August2019 <- raw_August2019 %>%
+  behead("up-left", consumption) %>%
+  behead("up", type) %>%
+  behead("left-up", question)%>%
+  behead("left", demographic) %>%
+  rename(n= numeric) %>%
+  select(-data_type, -row, -col, -character)
+
+
+
+```
+
 ```{r}
 
-#Testing analytical capabilities of newly formatted data
+#Testing analytic capabilities of newly formatted data
 
 tidied_data %>%
   group_by(type) %>%
+  mutate(percentage = mean(n, na.rm= TRUE)) %>%
   filter(question == "Race (4 race groups):") %>%
   filter(!consumption == "Total") %>%
   ggplot(aes(x = demographic, y = percentage, fill = type)) + 
@@ -63,5 +95,53 @@ tidied_data %>%
        caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
        ilters.category%3D118%26last_filter%3Dcategory")
 
+#Visualizing any consumption across racial groups
+tidied_data %>%
+  group_by(type) %>%
+  filter(question == "Race (4 race groups):") %>%
+  filter(!consumption == "Total") %>%
+  filter(consumption == "Any consumption (net)") %>%
+  ggplot(aes(x = demographic, y = n, fill = type)) + 
+  geom_col(color = "black") + 
+  theme_linedraw()+
+  labs(title = "Any Ethnic Food Consumption Across Racial Categories", 
+       subtitle = "May 2019 Survey", 
+       x = "Race",
+       y = "Count (out of 2000 respondents)",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+
+# Visualizing at take-out consumption
+tidied_data %>%
+  group_by(type) %>%
+  filter(question == "Race (4 race groups):") %>%
+  filter(!consumption == "Total") %>%
+  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
+  ggplot(aes(x = demographic, y = n, fill = type)) + 
+  geom_col(color = "black") + 
+  theme_linedraw()+
+  labs(title = "Any Ethnic Food Consumption Across Racial Categories", 
+       subtitle = "May 2019 Survey", 
+       x = "Race",
+       y = "Count (out of 2000 respondents)",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+
+
+# Visualizing at take-out consumption
+tidied_data %>%
+  group_by(type) %>%
+  filter(question == "Race (4 race groups):") %>%
+  filter(!consumption == "Total") %>%
+  filter(consumption == "At home") %>%
+  ggplot(aes(x = demographic, y = n, fill = type)) + 
+  geom_col(color = "black") + 
+  theme_linedraw()+
+  labs(title = "Any Ethnic Food Consumption Across Racial Categories", 
+       subtitle = "May 2019 Survey", 
+       x = "Race",
+       y = "Count (out of 2000 respondents)",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
 
 ```
