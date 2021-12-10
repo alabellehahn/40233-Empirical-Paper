@@ -13,7 +13,11 @@ This repository contains the data from [Mintel](https://reports-mintel-com.proxy
 1) Isolated the sheet for each recorded month
 2) Removed blank spaces and unnecessary notes
 3) Renamed categories for shorter reference titles
-4) Reformatted the data into a tidy tibble 
+4) Removed bold formatting of titles
+5) Manually nested demographic question answers to differentiate them from the headers
+6) Removed blank rows
+7) Reformatted the data into a tidy tibble 
+
 
 ## Resources Used 
 
