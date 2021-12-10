@@ -28,10 +28,57 @@ consumer_data <- read_csv("combined_months.csv")
 ```{r}
 
 # I want to create cuisine groups in order to visualize the difference between ethnic food categories
-<- consumer_data %>%
-  filter(type = )
+
+## A group for Asian "perceived" restaurants. Those whose food may associated with 
+## certain phenotypes
+asian_perceived <- consumer_data %>%
+  filter(type == c("chinese", "japanese", "thai", "vietnamese", "korean", "filipino"))
+
+
+#A group for non Asian "perceived" cuisines
+non_asian_perceived <- consumer_data %>%
+  filter(type == c("moroccan", "african", "latin", "greek", "middle eastern"))
 
 ```
+
+```{r}
+# Visualizing differences between cuisine categories
+
+
+asian_perceived %>%
+  group_by(type) %>%
+  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
+  ggplot(mapping= aes(x = date, y = n, fill = n)) + 
+  geom_col() +
+  coord_flip() +
+  scale_color_brewer(palette="Dark2") +
+  facet_wrap(facets = vars(type), scales = "free") + 
+  labs(title = "Consumption of Asian-perceived cuisines before and throughout the pandemic",
+       subtitle = "From sample of 2000 respondents",
+       y = "count",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+
+
+#Replicating the affect with non_Asian perceived
+
+non_asian_perceived %>%
+  group_by(type) %>%
+  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
+  ggplot(mapping= aes(x = date, y = n, fill = n)) + 
+  geom_col() +
+  coord_flip() +
+  scale_color_brewer(palette="Dark2") +
+  facet_wrap(facets = vars(type), scales = "free") + 
+  labs(title = "Consumption of Asian-perceived cuisines before and throughout the pandemic",
+       subtitle = "From sample of 2000 respondents",
+       y = "count",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+
+
+```
+
 
 ```{r, echo = FALSE}
 #Testing analytic capabilities of newly formatted data
