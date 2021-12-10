@@ -34,10 +34,13 @@ tidier <- all_cells %>%
   behead("up", type) %>%
   behead("left-up", question)%>%
   behead("left", demographic) %>%
-  rename(percentage = numeric) %>%
+  rename(n= numeric) %>%
   select(-data_type, -row, -col, -character)
 
-tidied_data <- tidier[-c(1:2), ]
+#Removing survey totals from dataframe and creating percentage column
+tidied_data <- tidier[-c(1:2), ] %>%
+  mutate(percentage = mean(n, na.rm= TRUE))
+  
 
 ```
 
@@ -50,7 +53,15 @@ tidied_data %>%
   filter(question == "Race (4 race groups):") %>%
   filter(!consumption == "Total") %>%
   ggplot(aes(x = demographic, y = percentage, fill = type)) + 
-  geom_col(color = "black")  
+  geom_col(color = "black") + 
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme_linedraw()+
+  labs(title = "Ethnic Food Consumption Across Racial Categories", 
+       subtitle = "May 2019 Survey", 
+       x = "Race",
+       y = "Percent %",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
 
 
 ```
