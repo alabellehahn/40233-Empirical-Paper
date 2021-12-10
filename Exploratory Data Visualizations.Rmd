@@ -1,11 +1,13 @@
 ---
-title: "Tidying Consumer Data"
-author: "Alana"
-date: "12/9/2021"
+title: "Exploratory Data Visualizations"
+author: "Alana LaBelle-Hahn"
+date: "12/10/2021"
 output: github_document
 ---
 
 ```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
 library(tidyverse)
 library(dplyr)
 library(readxl)
@@ -14,76 +16,12 @@ library(tidyxl)
 library(data.table)
 library(unpivotr)
 library(knitr)
-```
-
-# Testing the method for reading in the data and cleaning
-
-```{r }
-#Testing out the more technical solution!
-
-# Each cell in the excel file becomes an entire row in R
-all_cells <- tidyxl::xlsx_cells("May 2019_edited.xlsx")
-
-
-#Filter non-blank rows, select variables
-all_cells <- all_cells %>%
-  dplyr::filter(!is_blank) %>%
-  select(row, col, data_type, character, numeric)
-
-tidier <- all_cells %>%
-  behead("up-left", consumption) %>%
-  behead("up", type) %>%
-  behead("left-up", question)%>%
-  behead("left", demographic) %>%
-  rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
-
-#Removing survey totals from dataframe and creating percentage column
-tidied_data <- tidier[-c(1:2), ] %>%
-  mutate(percentage = mean(n, na.rm= TRUE))
-  
-
-```
-
-#Applying base method to relevant sheets 
-
-I tried to write a 'for' loop to do this, but it kept throwing me errors,
-so I unfortunately have to do it the old fashioned way:
-
-1)Fixing up the original excel sheets by renesting the subheaders for the demographic
-questions, and removing blank columns and rows. 
-
-then, 
-
-2)Reading in each individual sheet and performing the cleaning and tidying functions
-manually for each one...
-
-What a time. 
-
-
-``` {r, Reading in Aug 2019}
-
-#Attempting to read in sheets from newly edited compilation of sheets
-
-raw_August2019 <- tidyxl::xlsx_cells(path = "Cuisine Tracker Data_Edited.xlsx", sheet = "August 2019")
-
-raw_August2019 <- raw_August2019 %>%
-  dplyr::filter(!is_blank) %>%
-  select(row, col, data_type, character, numeric)
-
-clean_August2019 <- raw_August2019 %>%
-  behead("up-left", consumption) %>%
-  behead("up", type) %>%
-  behead("left-up", question)%>%
-  behead("left", demographic) %>%
-  rename(n= numeric) %>%
-  select(-data_type, -row, -col, -character)
 
 ```
 
 
-```{r}
 
+```{r, echo = FALSE}
 #Testing analytic capabilities of newly formatted data
 
 tidied_data %>%
@@ -149,6 +87,5 @@ tidied_data %>%
        x = "Race",
        y = "Count (out of 2000 respondents)",
        caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
 ```
+
