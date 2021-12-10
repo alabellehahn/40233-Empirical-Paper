@@ -1,0 +1,58 @@
+---
+title: "Untitled"
+author: "Alana"
+date: "12/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(dplyr)
+library(readxl)
+library(lubridate) #Don't think I'll be needing lubridate but leaving it in for now
+library(tidyxl)
+library(data.table)
+library(unpivotr)
+library(knitr)
+```
+
+``` {r}
+
+# Testing out the first tidied sheet
+may_2019 <- read_excel("May 2019.xlsx")
+
+#Defining our headings
+
+category_headings <- 
+  
+  # Splitting that sheet into multiple dataframes so that they can later be merged
+  any_consumption <- may_2019[ ,c(1:14)]
+
+away_from_home <- may_2019[, c(1:2, 15:26)]
+
+at_home <- may_2019[, c(1:2, 27:38)]
+```
+
+
+
+```{r }
+#Testing out the more technical solution!
+
+# Each cell in the excel file becomes an entire row in R
+all_cells <- tidyxl::xlsx_cells("May 2019_edited.xlsx")
+
+
+#Filter non-blank rows, select variables
+
+all_cells <- all_cells %>%
+  dplyr::filter(!is_blank) %>%
+  select(row, col, data_type, character, numeric)
+
+test<- all_cells %>%
+  behead("up-left", consumption) %>%
+  behead("up", type) %>%
+  behead("left-up", question)%>%
+  behead("left", demographic) %>%
+  rename(percentage = numeric) %>%
+  select(-data_type, -row, -col, -character)
+```
