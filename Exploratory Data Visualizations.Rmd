@@ -24,7 +24,7 @@ library(knitr)
 # Loading in the data
 consumer_data <- read_csv("combined_months.csv") 
 
-# For some reason, R read the date column in as a character string so here I am
+# For some reason, R read in the date column as a character string so here I am
 #converting everything back over to numeric...
 consumer_data$date <- as.yearmon(paste(consumer_data$year, 
                                        consumer_data$month), "%Y %m")
@@ -39,14 +39,14 @@ consumer_data$date <- as.yearmon(paste(consumer_data$year,
 ## A group for Asian "perceived" restaurants. Those whose food may associated with 
 ## certain phenotypes
 asian_perceived <- consumer_data %>%
-  filter(type == c("chinese", "japanese", "thai", "vietnamese", "korean", "filipino"))
+  filter(type == c("chinese", "japanese", "thai", 
+                   "vietnamese", "korean", "filipino"))
 
 
 #A group for non Asian "perceived" cuisines
 non_asian_perceived <- consumer_data %>%
-  filter(type == c("moroccan", "african", "latin", "greek", "middle eastern"))
-
-
+  filter(type == c("moroccan", "african", "latin", 
+                   "greek", "middle eastern", "mexican"))
 
 
 ```
@@ -58,7 +58,6 @@ non_asian_perceived <- consumer_data %>%
 asian_perceived %>%
   group_by(type) %>%
   filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
-  arrange(mdy(consumer_data$date)) %>%
   ggplot(mapping= aes(x = date, y = n, fill = n)) + 
   geom_col() +
   coord_flip() +
@@ -88,7 +87,7 @@ non_asian_perceived %>%
        ilters.category%3D118%26last_filter%3Dcategory")
 
 #Seeing all the comparisons in panel form - *VERY USEFUL*
-consumer_data %>%
+test <- consumer_data %>%
   group_by(type) %>%
   filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
   filter(!type == "none of the above") %>%
@@ -96,6 +95,7 @@ consumer_data %>%
   ggplot(mapping= aes(x = date, y = n, fill = n, na.rm = TRUE)) + 
   geom_col() +
   coord_flip() +
+  ylim(0,10000) +
   scale_color_brewer(palette="Dark2") +
   facet_wrap(facets = vars(type), scales = "free") + 
   labs(title = "Consumption of non Asian-perceived Cuisines ",
