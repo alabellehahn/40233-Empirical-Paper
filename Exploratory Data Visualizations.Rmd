@@ -16,6 +16,7 @@ library(tidyxl)
 library(data.table)
 library(unpivotr)
 library(knitr)
+library(stringr) 
 
 ```
 
@@ -28,7 +29,6 @@ consumer_data <- read_csv("combined_months.csv")
 #converting everything back over to numeric...
 consumer_data$date <- as.yearmon(paste(consumer_data$year, 
                                        consumer_data$month), "%Y %m")
-
 
 ```
 
@@ -48,8 +48,33 @@ non_asian_perceived <- consumer_data %>%
   filter(type == c("moroccan", "african", "latin", 
                    "greek", "middle eastern", "mexican"))
 
+# Creating a graph that shows consumption of Asian cuisines by race
+
+test <- asian_perceived %>%
+  group_by(type) %>%
+  filter(question == "Do you consider yourself...?:") %>%
+  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
+  mutate_all(funs(str_replace(., "White (X1)", " ")))
+
+  ggplot(mapping= aes(x = date, y = n, fill = demographic)) + 
+  geom_col() +
+  coord_flip() +
+  ylim(0, 250) +
+  scale_color_brewer(palette="Dark2") +
+  #facet_wrap(facets = vars(type), scales = "free") + 
+  labs(title = "Consumption of Asian-perceived Cuisines",
+       subtitle = "Before and throughout the pandemic",
+       y = "count",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+
+
+
 
 ```
+
+
+
 
 ```{r}
 # Visualizing differences between cuisine categories
@@ -87,7 +112,7 @@ non_asian_perceived %>%
        ilters.category%3D118%26last_filter%3Dcategory")
 
 #Seeing all the comparisons in panel form - *VERY USEFUL*
-test <- consumer_data %>%
+consumer_data %>%
   group_by(type) %>%
   filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
   filter(!type == "none of the above") %>%
@@ -120,6 +145,8 @@ consumer_data %>%
 
 ```
 
+# A USABLE GRAPH!
+
 ```{r, echo = FALSE}
 #Testing analytic capabilities of newly formatted data
 
@@ -128,64 +155,20 @@ consumer_data %>%
   group_by(date) %>%
   filter(question == "Race (4 race groups):") %>%
   filter(!consumption == "Total") %>%
-  filter(date == "May 2019") %>%
-  ggplot(aes(x = demographic, y = n, fill = type)) + 
-  geom_col(color = "black") + 
+  filter(!type == "none of the above") %>%
+  filter(!type == "None of the above") %>%
+  filter(date == "February 2020") %>%
+  ggplot(aes(x = demographic, y = n, fill = type, na.rm = TRUE)) + 
+  geom_col(width = .5) + 
   #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   theme_linedraw()+
   labs(title = "Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "May 2019 Survey", 
+       subtitle = "Online Survey of 2000 Adults in February 2020", 
        x = "Race",
-       y = "Percent %",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-#Visualizing any consumption across racial groups
-tidied_data %>%
-  group_by(type) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  filter(consumption == "Any consumption (net)") %>%
-  ggplot(aes(x = demographic, y = n, fill = type)) + 
-  geom_col(color = "black") + 
-  theme_linedraw()+
-  labs(title = "Any Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "May 2019 Survey", 
-       x = "Race",
-       y = "Count (out of 2000 respondents)",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-# Visualizing at take-out consumption
-tidied_data %>%
-  group_by(type) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
-  ggplot(aes(x = demographic, y = n, fill = type)) + 
-  geom_col(color = "black") + 
-  theme_linedraw()+
-  labs(title = "Any Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "May 2019 Survey", 
-       x = "Race",
-       y = "Count (out of 2000 respondents)",
+       y = "Count",
        caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
        ilters.category%3D118%26last_filter%3Dcategory")
 
 
-# Visualizing at take-out consumption
-tidied_data %>%
-  group_by(type) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  filter(consumption == "At home") %>%
-  ggplot(aes(x = demographic, y = n, fill = type)) + 
-  geom_col(color = "black") + 
-  theme_linedraw()+
-  labs(title = "Any Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "May 2019 Survey", 
-       x = "Race",
-       y = "Count (out of 2000 respondents)",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
 ```
 
