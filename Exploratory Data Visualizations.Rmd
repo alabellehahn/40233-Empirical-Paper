@@ -170,5 +170,50 @@ consumer_data %>%
        ilters.category%3D118%26last_filter%3Dcategory")
 
 
+# Doing a comparison to immediately after the start of the pandemic (May 2020)
+
+consumer_data %>%
+  group_by(type) %>%
+  group_by(date) %>%
+  filter(question == "Race (4 race groups):") %>%
+  filter(!consumption == "Total") %>%
+  filter(!type == "none of the above") %>%
+  filter(!type == "None of the above") %>%
+  filter(date == "May 2020") %>%
+  ggplot(aes(x = demographic, y = n, fill = type, na.rm = TRUE)) + 
+  geom_col(width = .5) + 
+  #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme_linedraw()+
+  labs(title = "Ethnic Food Consumption Across Racial Categories", 
+       subtitle = "Online Survey of 2000 Adults in May 2020", 
+       x = "Race",
+       y = "Count",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+
+#Comparing to August 2020 when we were well into the pandemic
+
+consumer_data %>%
+  group_by(type) %>%
+  group_by(date) %>%
+  filter(question == "Race (4 race groups):") %>%
+  filter(!consumption == "Total") %>%
+  filter(!type == "none of the above") %>%
+  filter(!type == "None of the above") %>%
+  filter(date == "August 2020") %>%
+  ggplot(aes(x = demographic, y = n, fill = type, na.rm = TRUE)) + 
+  geom_col(width = .5) + 
+  #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme_linedraw()+
+  labs(title = "Ethnic Food Consumption Across Racial Categories", 
+       subtitle = "Online Survey of 2000 Adults in August 2020", 
+       x = "Race",
+       y = "Count",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+
+
+
+
 ```
 
