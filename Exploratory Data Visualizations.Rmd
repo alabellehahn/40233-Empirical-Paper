@@ -17,6 +17,7 @@ library(data.table)
 library(unpivotr)
 library(knitr)
 library(stringr) 
+library(zoo)
 
 ```
 
@@ -47,28 +48,6 @@ asian_perceived <- consumer_data %>%
 non_asian_perceived <- consumer_data %>%
   filter(type == c("moroccan", "african", "latin", 
                    "greek", "middle eastern", "mexican"))
-
-# Creating a graph that shows consumption of Asian cuisines by race
-
-test <- asian_perceived %>%
-  group_by(type) %>%
-  filter(question == "Do you consider yourself...?:") %>%
-  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
-  mutate_all(funs(str_replace(., "White (X1)", " ")))
-
-  ggplot(mapping= aes(x = date, y = n, fill = demographic)) + 
-  geom_col() +
-  coord_flip() +
-  ylim(0, 250) +
-  scale_color_brewer(palette="Dark2") +
-  #facet_wrap(facets = vars(type), scales = "free") + 
-  labs(title = "Consumption of Asian-perceived Cuisines",
-       subtitle = "Before and throughout the pandemic",
-       y = "count",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-
 
 
 ```
