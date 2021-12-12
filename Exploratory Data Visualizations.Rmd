@@ -130,20 +130,7 @@ consumer_data %>%
        ilters.category%3D118%26last_filter%3Dcategory")
 
 ```
-```{r}
-consumer_data %>% 
-  group_by(clarity, cut) %>% 
-  summarize(m = mean(price)) %>% 
-  ggplot(aes(x = clarity, y = m, group = cut, color = cut)) +
-  geom_point() +
-  geom_line() +
-  facet_wrap(~cut, ncol = 2) +
-  labs(x = "my x-axis label here", 
-       y = "my y-axis label here", 
-       title = "The title of my Graph here")
 
-
-```
 
 # A USABLE GRAPH!
 
