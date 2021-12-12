@@ -100,7 +100,7 @@ consumer_data %>%
   ylim(0,10000) +
   scale_color_brewer(palette="Dark2") +
   facet_wrap(facets = vars(type), scales = "free") + 
-  labs(title = "Consumption of non Asian-perceived Cuisines ",
+  labs(title = "Consumption Levels Across Ethnic Cuisines ",
        subtitle = "Before and Throughout Pandemic",
        y = "count",
        caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
