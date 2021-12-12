@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [Steps for cleaning the data](https://github.com/alabellehahn/40233-Empirical-Paper/blob/main/Cleaning%20the%20data.Rmd)
--[The edited excel file from which data was extracted](https://github.com/alabellehahn/40233-Empirical-Paper/blob/main/Cuisine%20Tracker%20Data_Edited.xlsx)
+- [The edited excel file from which data was extracted](https://github.com/alabellehahn/40233-Empirical-Paper/blob/main/Cuisine%20Tracker%20Data_Edited.xlsx)
 - [Some of the resulting data visualizations](https://github.com/alabellehahn/40233-Empirical-Paper/blob/main/Exploratory%20Data%20Visualizations.Rmd)
 
 ## Purpose of this Repository
