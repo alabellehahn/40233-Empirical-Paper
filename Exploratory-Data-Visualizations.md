@@ -18,7 +18,7 @@ consumer_data %>%
   facet_wrap(facets = vars(type), scales = "free") + 
   labs(title = "Consumption Levels Across Ethnic Cuisines",
        subtitle = "Before and Throughout Pandemic",
-       y = "count",
+       y = "Aggregated percentages",
        caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
        ilters.category%3D118%26last_filter%3Dcategory")
 ```
