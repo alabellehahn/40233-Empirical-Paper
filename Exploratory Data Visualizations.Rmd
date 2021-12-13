@@ -82,7 +82,7 @@ consumer_data %>%
 ```
 
 
-``` {r, Measures across Racial Category, fig.widt = 9}
+``` {r, Measures across Racial Category, fig.width = 10}
 
 
 consumer_data %>%
