@@ -66,9 +66,8 @@ clean_May2019$date <- as.yearmon(paste(clean_May2019$year,
                                        clean_May2019$month), "%Y %m") 
 
 
-#Attempt to try and standardize demographic response categories and remove excel position labels
 
-substr(consumer_data$demographic,1,nchar(consumer_data$demographic)-4)
+
 
 
 

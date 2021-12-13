@@ -17,10 +17,11 @@ library(unpivotr)
 library(knitr)
 library(stringr) 
 library(zoo)
+library(RColorBrewer)
 
 ```
 
-```{r, reading in data}
+```{r, reading in data, include = FALSE}
 
 # Loading in the data
 consumer_data <- read_csv("combined_months.csv") 
@@ -36,66 +37,7 @@ consumer_data <- consumer_data %>%
 
 ```
 
-```{r}
-
-# I want to create cuisine groups in order to visualize the difference between ethnic food categories
-
-## A group for Asian "perceived" restaurants. Those whose food may associated with 
-## certain phenotypes
-asian_perceived <- consumer_data %>%
-  filter(type == c("chinese", "japanese", "thai", 
-                   "vietnamese", "korean", "filipino"))
-
-
-#A group for non Asian "perceived" cuisines
-non_asian_perceived <- consumer_data %>%
-  filter(type == c("moroccan", "african", "latin", 
-                   "greek", "middle eastern", "mexican"))
-
-
-```
-
-
-
-
-```{r}
-# Visualizing differences between cuisine categories
-
-asian_perceived %>%
-  group_by(type) %>%
-  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
-  ggplot(mapping= aes(x = date, y = n, fill = n)) + 
-  geom_col() +
-  coord_flip() +
-  scale_color_brewer(palette="Dark2") +
-  facet_wrap(facets = vars(type), scales = "free") + 
-  labs(title = "Consumption of Asian-perceived Cuisines",
-       subtitle = "Before and throughout the pandemic",
-       y = "count",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-
-#Replicating the affect with non_Asian perceived
-
-non_asian_perceived %>%
-  group_by(type) %>%
-  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
-  ggplot(mapping= aes(x = date, y = n, fill = n)) + 
-  geom_col() +
-  coord_flip() +
-  scale_color_brewer(palette="Dark2") +
-  facet_wrap(facets = vars(type), scales = "free") + 
-  labs(title = "Consumption of non Asian-perceived Cuisines ",
-       subtitle = "Before and Throughout Pandemic",
-       y = "count",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-```
-
-
-```{r, fig.height = 8, fig.width = 11}
+```{r, Consumption across time, fig.height = 8, fig.width = 11}
 
 #Seeing all the comparisons in panel form - *VERY USEFUL*
 consumer_data %>%
@@ -117,137 +59,11 @@ consumer_data %>%
 
 ```
 
+# USABLE
 
-# Some prelim graphs
-
-```{r, echo = FALSE}
-#Testing analytic capabilities of newly formatted data
+``` {r, Measures across generations, fig.height = 7, fig.width = 9}
 
 consumer_data %>%
-  group_by(type) %>%
-  group_by(date) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  filter(!type == "none of the above") %>%
-  filter(!type == "None of the above") %>%
-  ggplot(mapping= aes(x = date, y = n, fill = n, na.rm = TRUE)) + 
-  geom_col() +
-  coord_flip() +
-  ylim(0,10000) +
-  scale_color_brewer(palette="Dark2") +
-  facet_wrap(facets = vars(type), scales = "free") + 
-  #ggplot(aes(x = demographic, y = n, fill = type, na.rm = TRUE)) + 
-  #geom_col(width = .5) + 
-  #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  theme_linedraw()+
-  labs(title = "Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "Online Survey of 2000 Adults", 
-       x = "Race",
-       y = "Count",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-
-# Doing a comparison to immediately after the start of the pandemic (May 2020)
-
-consumer_data %>%
-  group_by(type) %>%
-  group_by(date) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  filter(!type == "none of the above") %>%
-  filter(!type == "None of the above") %>%
-  filter(date == "May 2020") %>%
-  ggplot(aes(x = demographic, y = n, fill = type, na.rm = TRUE)) + 
-  geom_col(width = .5) + 
-  #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  theme_linedraw()+
-  labs(title = "Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "Online Survey of 2000 Adults in May 2020", 
-       x = "Race",
-       y = "Count",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-#Comparing to August 2020 when we were well into the pandemic
-
-consumer_data %>%
-  group_by(type) %>%
-  group_by(date) %>%
-  filter(question == "Race (4 race groups):") %>%
-  filter(!consumption == "Total") %>%
-  filter(!type == "none of the above") %>%
-  filter(!type == "None of the above") %>%
-  filter(type == c("chinese", "japanese", "thai", 
-                   "vietnamese", "korean", "filipino")) %>%
-  ggplot(aes(x = demographic, y = n, fill = type, na.rm = TRUE)) + 
-  geom_col(width = .5) + 
-  #scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  theme_linedraw()+
-  labs(title = "Ethnic Food Consumption Across Racial Categories", 
-       subtitle = "Online Survey of 2000 Adults in August 2020", 
-       x = "Race",
-       y = "Count",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-
-```
-
-
-```{r, By Asian Foods by Census Region}
-
-#NOT GREAT
-
-# Attempting to plot comparison across census region
-
-consumer_data %>%
-  group_by(type) %>%
-  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
-  filter(!type == "none of the above") %>%
-  filter(!type == "None of the above") %>%
-  filter(type == c("chinese", "japanese", "thai", 
-                   "vietnamese", "korean", "filipino")) %>%
-  filter(!consumption == "Total") %>%
-  filter(question == "Census region:") %>%
-  ggplot(mapping = aes(x = date, y = n, fill = type, na.rm = TRUE)) +
-  geom_col() +
-  facet_wrap(facets = vars(demographic), scales = "free") +
-  labs(title = "Consumption of Asian foods across Census Regions",
-       subtitle = "Before and Throughout Pandemic",
-       y = "Monthly Consumption Percentages Aggregated",
-       x = "Region",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-    
-```
-
-``` {r, Non-Asian Foods by Census Region}
-
-consumer_data %>%
-  group_by(type) %>%
-  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
-  filter(!type == "none of the above") %>%
-  filter(!type == "None of the above") %>%
-  filter(type == c("moroccan", "african", "latin", 
-                   "greek", "middle eastern", "mexican", "italian")) %>%
-  filter(!consumption == "Total") %>%
-  filter(question == "Census region:") %>%
-  ggplot(mapping = aes(x = demographic, y = n, fill = type, na.rm = TRUE)) +
-  geom_col() +
-  labs(title = "Consumption of Asian foods across Census Regions",
-       subtitle = "Before and Throughout Pandemic",
-       y = "Monthly Consumption Percentages Aggregated",
-       x = "Region",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-    
-```
-
-
-``` {r, Measures across generations}
-
-consumer_data %>%
-  group_by(type) %>%
   filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
   filter(!type == "none of the above") %>%
   filter(!type == "None of the above") %>%
@@ -256,14 +72,60 @@ consumer_data %>%
   ggplot(mapping= aes(x = date, y = n, fill = type, na.rm = TRUE)) + 
   geom_col() +
   coord_flip() +
-  ylim(0,100) +
+  ylim(0,300) +
   scale_color_brewer(palette="Dark2") +
-  facet_wrap(facets = vars(demographic), scales = "free")
-+ 
-  labs(title = "Consumption Levels Across Ethnic Cuisines ",
+  facet_wrap(facets = vars(demographic), scales = "free") + 
+  labs(title = "Consumption Levels Across Generations",
        subtitle = "Before and Throughout Pandemic",
-       y = "count",
+       y = "Monthly Consumption Percentages Aggregated",
        caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
        ilters.category%3D118%26last_filter%3Dcategory")
 ```
+
+
+``` {r, Measures across Racial Category, fig.widt = 9}
+
+
+consumer_data %>%
+  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
+  filter(!type == "none of the above") %>%
+  filter(!type == "None of the above") %>%
+  filter(!consumption == "Total") %>%
+  filter(question == "Do you consider yourself...?:") %>%
+  ggplot(mapping= aes(x = date, y = n, fill = type, na.rm = TRUE)) + 
+  geom_col() +
+  coord_flip() +
+  ylim(0,300) +
+  scale_color_brewer(palette="Dark2") +
+  facet_wrap(facets = vars(demographic), scales = "free") + 
+  labs(title = "Consumption Levels Across Racial Groups",
+       subtitle = "Before and Throughout Pandemic",
+       y = "Monthly Consumption Percentages Aggregated",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+```
+
+```{r, Boxplot of most pop by region}
+
+consumer_data %>%
+  group_by(type) %>%
+  filter(type %in% c("chinese", "mexican", "italian")) %>%
+  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
+  filter(!type == "none of the above") %>%
+  filter(!type == "None of the above") %>%
+  filter(!consumption == "Total") %>%
+  filter(question == "Census region:") %>%
+  ggplot(mapping = aes(x = demographic, y = n, color = type)) +
+  geom_boxplot() + 
+  coord_flip() + 
+  labs(title = "Regional Consumption of Most Popular Cuisines",
+       subtitle = "Before pandemic and throughout", 
+       x = "Region", 
+       y = "Percent Consumption",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+
+```
+
+
 
