@@ -19,7 +19,7 @@ consumer_data %>%
   labs(title = "Consumption Levels Across Ethnic Cuisines",
        subtitle = "Before and Throughout Pandemic",
        y = "Aggregated Percentages",
-       caption = "Mintel")
+       caption = "Source: Mintel")
 ```
 
     ## Warning: Removed 107 rows containing missing values (position_stack).
