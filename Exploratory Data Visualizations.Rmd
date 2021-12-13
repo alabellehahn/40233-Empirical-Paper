@@ -11,7 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(dplyr)
 library(readxl)
-library(lubridate) #Don't think I'll be needing lubridate but leaving it in for now
 library(tidyxl)
 library(data.table)
 library(unpivotr)
@@ -30,6 +29,13 @@ consumer_data <- read_csv("combined_months.csv")
 #converting everything back over to numeric...
 consumer_data$date <- as.yearmon(paste(consumer_data$year, 
                                        consumer_data$month), "%Y %m")
+
+#Attempt to try and standardize demographic response categories and remove excel position labels
+
+consumer_data <- consumer_data %>%
+  transform(demographic = substr(demographic,1,nchar(demographic)-4))
+
+
 
 ```
 
@@ -57,7 +63,6 @@ non_asian_perceived <- consumer_data %>%
 
 ```{r}
 # Visualizing differences between cuisine categories
-
 
 asian_perceived %>%
   group_by(type) %>%
@@ -89,6 +94,11 @@ non_asian_perceived %>%
        y = "count",
        caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
        ilters.category%3D118%26last_filter%3Dcategory")
+
+```
+
+
+```{r, fig.height = 9, fig.width = 12}
 
 #Seeing all the comparisons in panel form - *VERY USEFUL*
 consumer_data %>%
@@ -178,8 +188,54 @@ consumer_data %>%
        caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
        ilters.category%3D118%26last_filter%3Dcategory")
 
+```
 
 
+```{r, By Census Region}
 
+# Attempting to plot comparison across census region
+
+consumer_data %>%
+  group_by(type) %>%
+  filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
+  filter(!type == "none of the above") %>%
+  filter(!type == "None of the above") %>%
+  filter(type == c("chinese", "japanese", "thai", 
+                   "vietnamese", "korean", "filipino")) %>%
+  filter(!consumption == "Total") %>%
+  filter(question == "Census region:") %>%
+  str_sub(consumer_data$demographic,1,nchar(consumer_data$demographic)-4) %>%
+  ggplot(mapping = aes(x = demographic, y = n, fill = type, na.rm = TRUE)) +
+  geom_col()
+
+
+  
+    ggplot(mapping = aes(x = date, fill = demographic, na.rm = TRUE)) + 
+  geom_violin(fill = n) +
+  labs(title = "Consumption of Asian foods across Census REgions",
+       subtitle = "Before and Throughout Pandemic",
+       x = "Monthly Percentages Aggregated",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
+    
+    
+```
+
+
+``` {r}
+%>%
+  ggplot(mapping= aes(x = date, y = n, na.rm = TRUE)) + 
+  geom_col() +
+  coord_flip() +
+  ylim(0,10000) +
+  scale_color_brewer(palette="Dark2") +
+  facet_wrap(facets = vars(demographic), scales = "free")
+
++ 
+  labs(title = "Consumption Levels Across Ethnic Cuisines ",
+       subtitle = "Before and Throughout Pandemic",
+       y = "count",
+       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
+       ilters.category%3D118%26last_filter%3Dcategory")
 ```
 

@@ -111,18 +111,18 @@ consumer_data %>%
 
     ## Warning: Removed 14 rows containing missing values (geom_col).
 
-![](Exploratory-Data-Visualizations_files/figure-gfm/unnamed-chunk-2-3.png)<!-- -->
+![](Exploratory-Data-Visualizations_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 # A USABLE GRAPH!
 
     ## Warning: Removed 6 rows containing missing values (position_stack).
 
-![](Exploratory-Data-Visualizations_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](Exploratory-Data-Visualizations_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
     ## Warning: Removed 6 rows containing missing values (position_stack).
 
-![](Exploratory-Data-Visualizations_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+![](Exploratory-Data-Visualizations_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
 
     ## Warning: Removed 6 rows containing missing values (position_stack).
 
-![](Exploratory-Data-Visualizations_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
+![](Exploratory-Data-Visualizations_files/figure-gfm/unnamed-chunk-4-3.png)<!-- -->

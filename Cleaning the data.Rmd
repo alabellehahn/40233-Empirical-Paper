@@ -32,6 +32,7 @@ library(data.table)
 library(unpivotr)
 library(knitr)
 library(zoo) # Helped with converting numeric dates to parsable dates in R
+library(stringr)
 ```
 
 # Testing the method for reading in the data and cleaning
@@ -63,6 +64,13 @@ clean_May2019 <- all_cells %>%
 # Revising the month and year category into a parsable date
 clean_May2019$date <- as.yearmon(paste(clean_May2019$year, 
                                        clean_May2019$month), "%Y %m") 
+
+
+#Attempt to try and standardize demographic response categories and remove excel position labels
+
+substr(consumer_data$demographic,1,nchar(consumer_data$demographic)-4)
+
+
 
 
 ```
