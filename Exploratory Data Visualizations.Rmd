@@ -60,7 +60,7 @@ consumer_data %>%
 
 # USABLE
 
-``` {r, Measures across generations, fig.height = 7, fig.width = 10}
+``` {r, Measures across generations, fig.width = 10}
 
 consumer_data %>%
   filter(consumption == "Away from home (eg restaurant, café, etc)") %>%
@@ -123,6 +123,11 @@ consumer_data %>%
        caption = "Source: Mintel")
 
 ```
+
+
+
+
+
 
 
 
