@@ -54,8 +54,7 @@ consumer_data %>%
   labs(title = "Consumption Levels Across Ethnic Cuisines",
        subtitle = "Before and Throughout Pandemic",
        y = "Aggregated Percentages",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
+       caption = "Mintel")
 
 ```
 
@@ -78,9 +77,7 @@ consumer_data %>%
   labs(title = "Consumption Levels Across Generations",
        subtitle = "Before and Throughout Pandemic",
        y = "Monthly Consumption Percentages Aggregated",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
-```
+       caption = "Source:Mintel")
 
 
 ``` {r, Measures across Racial Category, fig.widt = 9}
@@ -101,8 +98,7 @@ consumer_data %>%
   labs(title = "Consumption Levels Across Racial Groups",
        subtitle = "Before and Throughout Pandemic",
        y = "Monthly Consumption Percentages Aggregated",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
+       caption = "Source: Mintel")
 ```
 
 ```{r, Boxplot of most pop by region}
@@ -122,8 +118,7 @@ consumer_data %>%
        subtitle = "Before pandemic and throughout", 
        x = "Region", 
        y = "Percent Consumption",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
+       caption = "Source: Mintel")
 
 ```
 

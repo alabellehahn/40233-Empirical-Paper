@@ -19,8 +19,7 @@ consumer_data %>%
   labs(title = "Consumption Levels Across Ethnic Cuisines",
        subtitle = "Before and Throughout Pandemic",
        y = "Aggregated Percentages",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
+       caption = "Mintel")
 ```
 
     ## Warning: Removed 107 rows containing missing values (position_stack).
@@ -47,8 +46,7 @@ consumer_data %>%
   labs(title = "Consumption Levels Across Generations",
        subtitle = "Before and Throughout Pandemic",
        y = "Monthly Consumption Percentages Aggregated",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
+       caption = "Source:Mintel")
 ```
 
     ## Warning: Removed 7 rows containing missing values (geom_col).
@@ -71,8 +69,7 @@ consumer_data %>%
   labs(title = "Consumption Levels Across Racial Groups",
        subtitle = "Before and Throughout Pandemic",
        y = "Monthly Consumption Percentages Aggregated",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
+       caption = "Source: Mintel")
 ```
 
     ## Warning: Removed 18 rows containing missing values (geom_col).
@@ -95,8 +92,7 @@ consumer_data %>%
        subtitle = "Before pandemic and throughout", 
        x = "Region", 
        y = "Percent Consumption",
-       caption = "Source: https://reports-mintel-com.proxy.uchicago.edu/display/1044545/?fromSearch=%3Ff
-       ilters.category%3D118%26last_filter%3Dcategory")
+       caption = "Source: Mintel")
 ```
 
 ![](Exploratory-Data-Visualizations_files/figure-gfm/Boxplot%20of%20most%20pop%20by%20region-1.png)<!-- -->
